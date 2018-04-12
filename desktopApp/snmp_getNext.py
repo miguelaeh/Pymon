@@ -13,10 +13,11 @@ g = nextCmd(SnmpEngine(),
             CommunityData(community),
             UdpTransportTarget((ip, puerto)),
             ContextData(),
-            ObjectType(ObjectIdentity(mib, oidObjeto)))
+            ObjectType(ObjectIdentity(mib, oidObjeto).addAsn1MibSource('file:///usr/share/snmp',
+                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
 errorIndication, errorStatus, errorIndex, varBinds = next(g)
 
-
+#g.send( [ ObjectType(ObjectIdentity('IF-MIB', 'ifInOctets')) ] ) #La funcion send permite repetir todo lo anterior cambiando solo lo que le pasamos
 
 if errorIndication:
     print(errorIndication)

@@ -16,7 +16,8 @@ errorIndication, errorStatus, errorIndex, varBinds = next(
            CommunityData(community, mpModel=0),
            UdpTransportTarget((ip, puerto)),
            ContextData(),
-           ObjectType(ObjectIdentity(mib, oidObjeto, oidInstancia))) #el 0 es porque es la instancia, 
+           ObjectType(ObjectIdentity(mib, oidObjeto, oidInstancia).addAsn1MibSource('file:///usr/share/snmp',
+                                                                                 'http://mibs.snmplabs.com/asn1/@mib@'))) #el 0 es porque es la instancia, 
                                                         #para tablas poner donde esta el 0 el oid del objeto columna
 )
 
