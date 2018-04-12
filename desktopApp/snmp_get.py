@@ -5,7 +5,7 @@ puerto = 161
 ip = raw_input("Introduzca IP: ")
 community = raw_input("Introduzca community: ")
 mib = raw_input("Introduzca nombre de la MIB: ") #la mib es el oid de la mib
-idObjeto = raw_input("Introduzca Id del objeto: ")
+oidObjeto = raw_input("Introduzca Id del objeto: ")
 oidInstancia = raw_input("Introduzca oid de la instancia: ")
 
 
@@ -16,7 +16,7 @@ errorIndication, errorStatus, errorIndex, varBinds = next(
            CommunityData(community, mpModel=0),
            UdpTransportTarget((ip, puerto)),
            ContextData(),
-           ObjectType(ObjectIdentity(mib, idObjeto, oidInstancia))) #el 0 es porque es la instancia, 
+           ObjectType(ObjectIdentity(mib, oidObjeto, oidInstancia))) #el 0 es porque es la instancia, 
                                                         #para tablas poner donde esta el 0 el oid del objeto columna
 )
 
