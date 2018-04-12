@@ -15,7 +15,8 @@ errorIndication, errorStatus, errorIndex, varBinds = next(
          	CommunityData(community),
             UdpTransportTarget((ip, puerto)),
             ContextData(),
-            ObjectType(ObjectIdentity(mib, idObjeto, oidInstancia), value)))
+            ObjectType(ObjectIdentity(mib, idObjeto, oidInstancia), value).addAsn1MibSource('file:///usr/share/snmp',
+                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
 
 
 if errorIndication:
