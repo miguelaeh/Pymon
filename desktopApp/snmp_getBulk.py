@@ -6,7 +6,7 @@ puerto = 161
 ip = raw_input("Introduzca IP: ")
 community = raw_input("Introduzca community: ")
 mib = raw_input("Introduzca nombre de la MIB: ") #la mib es el oid de la mib
-print("Ìntroduzca el numero de objetos total a pedir:")
+print("Introduzca el numero de objetos total a pedir:")
 nonRepeaters = raw_input("Non-Repeaters: ")
 maxRepetitions = raw_input("Max-Repetitions: ")
 
