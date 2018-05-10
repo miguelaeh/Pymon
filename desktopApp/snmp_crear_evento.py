@@ -17,7 +17,9 @@ eventCommunity =raw_input("Introduzca eventCommunity:")
 #eventLastTimeSent =raw_input("Introduzca eventLastTimeSent:")
 eventOwner =raw_input("Introduzca eventOwner:")
 eventIndex = raw_input("INtroduzca indice evento: ")
-#eventStatus =raw_input("Introduzca eventStatus:")
+
+
+
 
 errorIndication5, errorStatus5, errorIndex5, varBinds5 = next(
 		setCmd(SnmpEngine(),
@@ -36,38 +38,38 @@ errorIndication5, errorStatus5, errorIndex5, varBinds5 = next(
 
 
 #configurar evento 
-#errorIndication1, errorStatus1, errorIndex1, varBinds1 = next(
-#		setCmd(SnmpEngine(),
-#         	CommunityData(community),
-#            UdpTransportTarget((ip, puerto)),
-#            ContextData(),
-#            ObjectType(ObjectIdentity(mib, 'eventDescription', eventIndex), eventDescription).addAsn1MibSource('file:///usr/share/snmp',
-#                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
+errorIndication1, errorStatus1, errorIndex1, varBinds1 = next(
+		setCmd(SnmpEngine(),
+         	CommunityData(community),
+            UdpTransportTarget((ip, puerto)),
+            ContextData(),
+            ObjectType(ObjectIdentity(mib, 'eventDescription', eventIndex), eventDescription).addAsn1MibSource('file:///usr/share/snmp',
+                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
 
 
-#errorIndication2, errorStatus2, errorIndex2, varBinds2 = next(
-#		setCmd(SnmpEngine(),
-#         	CommunityData(community),
-#            UdpTransportTarget((ip, puerto)),
-#            ContextData(),
-#            ObjectType(ObjectIdentity(mib, 'eventType', eventIndex), eventType).addAsn1MibSource('file:///usr/share/snmp',
-#                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
+errorIndication2, errorStatus2, errorIndex2, varBinds2 = next(
+		setCmd(SnmpEngine(),
+         	CommunityData(community),
+            UdpTransportTarget((ip, puerto)),
+            ContextData(),
+            ObjectType(ObjectIdentity(mib, 'eventType', eventIndex), eventType).addAsn1MibSource('file:///usr/share/snmp',
+                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
 
-#errorIndication3, errorStatus3, errorIndex3, varBinds3 = next(
-#		setCmd(SnmpEngine(),
-#         	CommunityData(community),
-#            UdpTransportTarget((ip, puerto)),
-#            ContextData(),
-#            ObjectType(ObjectIdentity(mib, 'eventCommunity', eventIndex), eventCommunity).addAsn1MibSource('file:///usr/share/snmp',
-#                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
+errorIndication3, errorStatus3, errorIndex3, varBinds3 = next(
+		setCmd(SnmpEngine(),
+         	CommunityData(community),
+            UdpTransportTarget((ip, puerto)),
+            ContextData(),
+            ObjectType(ObjectIdentity(mib, 'eventCommunity', eventIndex), eventCommunity).addAsn1MibSource('file:///usr/share/snmp',
+                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
 
-#errorIndication4, errorStatus4, errorIndex4, varBinds4 = next(
-#		setCmd(SnmpEngine(),
-#         	CommunityData(community),
-#            UdpTransportTarget((ip, puerto)),
-#            ContextData(),
-#            ObjectType(ObjectIdentity(mib, 'eventOwner', eventIndex), eventOwner).addAsn1MibSource('file:///usr/share/snmp',
-#                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
+errorIndication4, errorStatus4, errorIndex4, varBinds4 = next(
+		setCmd(SnmpEngine(),
+         	CommunityData(community),
+            UdpTransportTarget((ip, puerto)),
+            ContextData(),
+            ObjectType(ObjectIdentity(mib, 'eventOwner', eventIndex), eventOwner).addAsn1MibSource('file:///usr/share/snmp',
+                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
 
 
 
