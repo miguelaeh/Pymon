@@ -24,7 +24,7 @@ fallingthr = raw_input("Introduzca umbral inferior: ")
 
 
 #configurar evento de la alarma
-errorIndication1, errorStatus1, errorIndex1, varBinds1 = next(
+errorIndication, errorStatus, errorIndex, varBinds = next(
 		setCmd(SnmpEngine(),
          	CommunityData(community),
             UdpTransportTarget((ip, puerto)),
@@ -52,7 +52,7 @@ elif errorStatus:
     print('%s at %s' % (errorStatus.prettyPrint(),
                         errorIndex and varBinds[int(errorIndex) - 1][0] or '?'))
 else:
-    for varBind in varBinds1:
+    for varBind in varBinds:
         print(' = '.join([x.prettyPrint() for x in varBind]))
 
 
