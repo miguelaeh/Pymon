@@ -78,9 +78,9 @@ def command_get(m):
     
     if cid == GRUPO:
         
-            bot.send_message( GRUPO, 'mensaje A') # Con la función 'send_message()' del bot, enviamos al ID almacenado el texto que queremos.
+            bot.send_message( GRUPO, 'grupo') # Con la función 'send_message()' del bot, enviamos al ID almacenado el texto que queremos.
     else :
-            bot.send_message( cid, 'tusmuertos')
+            bot.send_message( cid, 'individual')
                                                                       
 
     if errorIndication:
@@ -93,6 +93,7 @@ def command_get(m):
             bot.send_chat_action(cid, 'typing') # Enviando ...
             time.sleep(1)
             bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
+
 
 
 bot.polling()
