@@ -14,7 +14,7 @@ idObjeto = raw_input("Introduzca Id de la notificacion: ")
 
 errorIndication, errorStatus, errorIndex, varBinds = next(sendNotification(SnmpEngine(),
 	                 CommunityData(community),
-                     UdpTransportTarget((ip, 162)),
+                     UdpTransportTarget((ip, puerto)),
                      ContextData(),
 					'trap',
 					NotificationType(ObjectIdentity(mib, idObjeto))))

@@ -16,54 +16,72 @@ eventType =raw_input("Introduzca eventType:")
 eventCommunity =raw_input("Introduzca eventCommunity:")
 #eventLastTimeSent =raw_input("Introduzca eventLastTimeSent:")
 eventOwner =raw_input("Introduzca eventOwner:")
+eventIndex = raw_input("INtroduzca indice evento: ")
 #eventStatus =raw_input("Introduzca eventStatus:")
-
-#configurar evento de la alarma
-errorIndication1, errorStatus1, errorIndex1, varBinds1 = next(
-		setCmd(SnmpEngine(),
-         	CommunityData(community),
-            UdpTransportTarget((ip, puerto)),
-            ContextData(),
-            ObjectType(ObjectIdentity(mib, 'eventDescription', 0), eventDescription).addAsn1MibSource('file:///usr/share/snmp',
-                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
-
-
-errorIndication2, errorStatus2, errorIndex2, varBinds2 = next(
-		setCmd(SnmpEngine(),
-         	CommunityData(community),
-            UdpTransportTarget((ip, puerto)),
-            ContextData(),
-            ObjectType(ObjectIdentity(mib, 'eventType', 0), eventType).addAsn1MibSource('file:///usr/share/snmp',
-                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
-
-errorIndication3, errorStatus3, errorIndex3, varBinds3 = next(
-		setCmd(SnmpEngine(),
-         	CommunityData(community),
-            UdpTransportTarget((ip, puerto)),
-            ContextData(),
-            ObjectType(ObjectIdentity(mib, 'eventCommunity', 0), eventCommunity).addAsn1MibSource('file:///usr/share/snmp',
-                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
-
-errorIndication4, errorStatus4, errorIndex4, varBinds4 = next(
-		setCmd(SnmpEngine(),
-         	CommunityData(community),
-            UdpTransportTarget((ip, puerto)),
-            ContextData(),
-            ObjectType(ObjectIdentity(mib, 'eventOwner', 0), evento).addAsn1MibSource('file:///usr/share/snmp',
-                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
-
 
 errorIndication5, errorStatus5, errorIndex5, varBinds5 = next(
 		setCmd(SnmpEngine(),
          	CommunityData(community),
             UdpTransportTarget((ip, puerto)),
             ContextData(),
-            ObjectType(ObjectIdentity(mib, 'eventStatus', 0), 1).addAsn1MibSource('file:///usr/share/snmp',
+            ObjectType(ObjectIdentity(mib, 'eventStatus', eventIndex), 2).addAsn1MibSource('file:///usr/share/snmp', #lo ponemos en 2 underCreate
+                                                                                 'http://mibs.snmplabs.com/asn1/@mib@'),
+			ObjectType(ObjectIdentity(mib, 'eventDescription', eventIndex), eventDescription).addAsn1MibSource('file:///usr/share/snmp',
+                                                                                 'http://mibs.snmplabs.com/asn1/@mib@'),
+			ObjectType(ObjectIdentity(mib, 'eventType', eventIndex), eventType).addAsn1MibSource('file:///usr/share/snmp',
+                                                                                 'http://mibs.snmplabs.com/asn1/@mib@'),
+			ObjectType(ObjectIdentity(mib, 'eventOwner', eventIndex), eventOwner).addAsn1MibSource('file:///usr/share/snmp',
                                                                                  'http://mibs.snmplabs.com/asn1/@mib@')))
 
 
 
+#configurar evento 
+#errorIndication1, errorStatus1, errorIndex1, varBinds1 = next(
+#		setCmd(SnmpEngine(),
+#         	CommunityData(community),
+#            UdpTransportTarget((ip, puerto)),
+#            ContextData(),
+#            ObjectType(ObjectIdentity(mib, 'eventDescription', eventIndex), eventDescription).addAsn1MibSource('file:///usr/share/snmp',
+#                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
 
+
+#errorIndication2, errorStatus2, errorIndex2, varBinds2 = next(
+#		setCmd(SnmpEngine(),
+#         	CommunityData(community),
+#            UdpTransportTarget((ip, puerto)),
+#            ContextData(),
+#            ObjectType(ObjectIdentity(mib, 'eventType', eventIndex), eventType).addAsn1MibSource('file:///usr/share/snmp',
+#                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
+
+#errorIndication3, errorStatus3, errorIndex3, varBinds3 = next(
+#		setCmd(SnmpEngine(),
+#         	CommunityData(community),
+#            UdpTransportTarget((ip, puerto)),
+#            ContextData(),
+#            ObjectType(ObjectIdentity(mib, 'eventCommunity', eventIndex), eventCommunity).addAsn1MibSource('file:///usr/share/snmp',
+#                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
+
+#errorIndication4, errorStatus4, errorIndex4, varBinds4 = next(
+#		setCmd(SnmpEngine(),
+#         	CommunityData(community),
+#            UdpTransportTarget((ip, puerto)),
+#            ContextData(),
+#            ObjectType(ObjectIdentity(mib, 'eventOwner', eventIndex), eventOwner).addAsn1MibSource('file:///usr/share/snmp',
+#                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
+
+
+
+
+
+
+#if errorIndication:
+#    print(errorIndication)
+#elif errorStatus:
+#    print('%s at %s' % (errorStatus.prettyPrint(),
+#                        errorIndex and varBinds[int(errorIndex) - 1][0] or '?'))
+#else:
+#    for varBind in varBinds1:
+#        print(' = '.join([x.prettyPrint() for x in varBind]))
 
 
 if errorIndication1:
