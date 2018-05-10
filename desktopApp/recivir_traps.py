@@ -4,9 +4,7 @@ from pyasn1.codec.ber import decoder
 from pysnmp.proto import api
 
 def cbFun(transportDispatcher, transportDomain, transportAddress, wholeMsg):
-    print('cbFun is called')
     while wholeMsg:
-        print('loop...')
         msgVer = int(api.decodeMessageVersion(wholeMsg))
         if msgVer in api.protoModules:
             pMod = api.protoModules[msgVer]
@@ -48,11 +46,11 @@ def cbFun(transportDispatcher, transportDomain, transportAddress, wholeMsg):
                 varBinds = pMod.apiPDU.getVarBindList(reqPDU)
             print('Var-binds:')
             for oid, val in varBinds:
-                print('%s = %s' % (oid.prettyPrint(), val.prettyPrint()))
+                print('%s = %s' % (oid, val))
     return wholeMsg
 
 
-ip = raw_input("Introduzca ip del servidor para recivir traps: ")
+ip = raw_input("(NO OLVIDE CONFIGURAR LA IP A LA QUE EL CONMUUTADOR ENVIA LOS TRAPS) Introduzca ip del servidor para recivir traps: ")
 
 transportDispatcher = AsynsockDispatcher()
 
@@ -72,8 +70,20 @@ transportDispatcher.jobStarted(1)
 
 try:
     # Dispatcher will never finish as job#1 never reaches zero
-    print('run dispatcher')
     transportDispatcher.runDispatcher()
 except:
     transportDispatcher.closeDispatcher()
     raise
+
+
+
+
+
+
+
+
+
+
+
+
+
