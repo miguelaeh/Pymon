@@ -24,7 +24,7 @@ errorIndication5, errorStatus5, errorIndex5, varBinds5 = next(
          	CommunityData(community),
             UdpTransportTarget((ip, puerto)),
             ContextData(),
-            ObjectType(ObjectIdentity(mib, 'eventStatus', eventIndex), 2).addAsn1MibSource('file:///usr/share/snmp', #lo ponemos en 2 underCreate
+            ObjectType(ObjectIdentity(mib, 'eventStatus', eventIndex), 1).addAsn1MibSource('file:///usr/share/snmp', #lo ponemos en 2 underCreate
                                                                                  'http://mibs.snmplabs.com/asn1/@mib@'),
 			   ObjectType(ObjectIdentity(mib, 'eventDescription', eventIndex), eventDescription).addAsn1MibSource('file:///usr/share/snmp',
                                                                                  'http://mibs.snmplabs.com/asn1/@mib@'),
