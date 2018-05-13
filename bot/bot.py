@@ -152,6 +152,52 @@ def command_receptortraps(m):
     file.close
     print "Cambiado receptor de traps"
 
+
+
+@bot.message_handler(commands=['createvent'])
+def command_createvent(m):
+
+    
+    cid = m.chat.id
+    aux = m.text.split(" ")
+    if len(aux)==6:
+        eventDescription = aux[1]
+        eventType = aux[2]
+        eventCommunity = aux[3]
+        eventOwner = aux[4]
+        eventIndex = aux[5]
+        varBinds = snmp_crear_evento(ip, community, eventDescription, eventType, eventCommunity, eventOwner, eventIndex)
+        if varBinds != None:
+           bot.send_message(cid, "Evento creado con éxito")
+           print "Evento creado"
+        else:
+            bot.send_message(cid, "Error en parámetro del comando")
+    else:
+        bot.send_message(cid,"Error de formato")
+
+@bot.message_handler(commands=['createalarm'])
+def command_createalarm(m):
+
+    cid = m.chat.id
+    aux = m.text.split(" ")
+    if len(aux)==9:
+        indiceAlarma = aux[1]
+        indiceEvento = aux[2]
+        owner = aux[3]
+        interval = aux[4]
+        variable = aux[5]
+        sampleType = aux[6]
+        risingthr = aux[7]
+        fallingth = aux[8]
+        varBinds = snmp_crear_alarma(ip, community, indiceAlarma, indiceEvento, owner, interval, variable, sampleType, risingthr, fallingth)
+        if varBinds != None:
+            bot.send_message(cid, "Alarma creada con éxito")
+            print "Alarma creada"
+        else:
+            bot.send_message(cid, "Error en parámetro del comando")
+    else:
+        bot.send_message(cid,"Error de formato")
+
 @bot.message_handler(commands=['showconf'])
 def command_showconf(m):
     
