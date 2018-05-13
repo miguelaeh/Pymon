@@ -17,23 +17,9 @@ GRUPO = -1001201542913 #Definimos que cuando pongamos la palabra grupo lo vincul
  
  
  
- 
 bot = telebot.TeleBot(TOKEN) # Creamos el objeto de nuestro bot.
 ############################################# 
 #Listener
-def listener(messages): # Con esto, estamos definiendo una función llamada 'listener', que recibe como parámetro un dato llamado 'messages'.
-    for m in messages: # Por cada dato 'm' en el dato 'messages'
-        cid = m.chat.id # El Cid es el identificador del chat los negativos son grupos y positivos los usuarios
-        if cid > 0:
-            mensaje = str(m.chat.first_name) + " [" + str(cid) + "]: " + m.text # Si 'cid' es positivo, usaremos 'm.chat.first_name' para el nombre.
-        else:
-            mensaje = str(m.from_user.first_name) + "[" + str(cid) + "]: " + m.text # Si 'cid' es negativo, usaremos 'm.from_user.first_name' para el nombre.
-        f = open( 'log.txt', 'a') # Abrimos nuestro fichero log en modo 'Añadir'.
-        f.write(mensaje + "\n") # Escribimos la linea de log en el fichero.
-        f.close() # Cerramos el fichero para que se guarde.
-        print mensaje # Imprimimos el mensaje en la terminal, que nunca viene mal :) 
- 
-bot.set_update_listener(listener) # Así, le decimos al bot que utilice como función escuchadora nuestra función 'listener' declarada arriba.
 
 AYUDA = 'Puedes utilizar los siguientes comandos : \n\n/ayuda - Guia para utilizar el bot. \n/info - Informacion De interes \n/hola - Saludo del Bot \n/piensa3D - Informacion sobre Piensa3D \n\n'
  
@@ -56,8 +42,8 @@ def command_info(m): # Definimos una función que resuleva lo que necesitemos.
 @bot.message_handler(commands=['get'])
 def command_get(m):
     
+    puerto = 161 
     cid = m.chat.id
-    puerto=161
     ip = '10.10.10.1'
     community = "public"
     mib = 'SNMPv2-MIB'
@@ -73,27 +59,66 @@ def command_get(m):
             UdpTransportTarget((ip, puerto)),
             ContextData(),
             ObjectType(ObjectIdentity(mib, oidObjeto, oidInstancia).addAsn1MibSource('file:///usr/share/snmp',
-                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))) #el 0 es porque es la instancia, 
-                                                        #para tablas poner donde esta el 0 el oid del objeto columna
-    
-    if cid == GRUPO:
-        
-            bot.send_message( GRUPO, 'grupo') # Con la función 'send_message()' del bot, enviamos al ID almacenado el texto que queremos.
-    else :
-            bot.send_message( cid, 'individual')
-                                                                      
+                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))) #el 0 es porque es la instancia               
 
     if errorIndication:
         print(errorIndication)
+        bot.send_message(cid,'Error')
     elif errorStatus:
         print('%s at %s' % (errorStatus.prettyPrint(),
                         errorIndex and varBinds[int(errorIndex) - 1][0] or '?'))
+        bot.send_message(cid,'Error')
     else:
         for varBind in varBinds:
             bot.send_chat_action(cid, 'typing') # Enviando ...
             time.sleep(1)
             bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
 
+
+
+@bot.message_handler(commands=['set'])
+def command_set(m):
+
+	puerto = 161
+	cid = m.chat.id
+
+
+	ip = raw_input("Introduzca IP: ")
+	community = raw_input("Introduzca community: ")
+	mib = raw_input("Introduzca nombre de la MIB: ") #la mib es el oid de la mib
+	idObjeto = raw_input("Introduzca Id del objeto: ")
+	oidInstancia = raw_input("Introduzca oid de la instancia: ")
+	value = raw_input("Introduzca el nuevo valor: ")
+
+	errorIndication, errorStatus, errorIndex, varBinds = next(
+		setCmd(SnmpEngine(),
+         	CommunityData(community),
+            UdpTransportTarget((ip, puerto)),
+            ContextData(),
+            ObjectType(ObjectIdentity(mib, idObjeto, oidInstancia), value).addAsn1MibSource('file:///usr/share/snmp',
+                                                                                 'http://mibs.snmplabs.com/asn1/@mib@')))
+
+
+	if errorIndication:
+    	print(errorIndication)
+    	bot.send_message(cid,'Error')
+	elif errorStatus:
+    	print('%s at %s' % (errorStatus.prettyPrint(),
+                     	   errorIndex and varBinds[int(errorIndex) - 1][0] or '?'))
+    	bot.send_message(cid, 'Error')
+	else:
+    	for varBind in varBinds:
+    		bot.send_chat_action(cid, 'typing') # Enviando ...
+        	time.sleep(1)
+        	bot.send_message(cid, ' = '.join([x.prettyPrint() for x in varBind]))
+
+bot.message_handler(commands=['prueba'])
+def command_prueba(m):
+
+	cid = m.chat.id
+	send_message(cid,'Envia')
+	mensaje = update.m.text
+	send_message(cid,mensaje)
 
 
 bot.polling()
