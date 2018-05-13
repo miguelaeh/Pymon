@@ -150,6 +150,7 @@ def command_receptortraps(m):
     file = open("trap.txt","w")
     file.write(str(m.chat.id))
     file.close
+    print "Cambiado receptor de traps"
 
 @bot.message_handler(commands=['showconf'])
 def command_showconf(m):
