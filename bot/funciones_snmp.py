@@ -32,15 +32,16 @@ def snmp_get(ip, community, mib, oidObjeto, oidInstancia):
 
 
 def snmp_set(ip,community,mib,idObjeto,oidInstancia,value):
-    puerto = 161
-    try:
+
+	puerto = 161
+	try:
 	    errorIndication, errorStatus, errorIndex, varBinds = next(
-	    		setCmd(SnmpEngine(),
-	             	CommunityData(community),
-	                UdpTransportTarget((ip, puerto)),
-	                ContextData(),
-	                ObjectType(ObjectIdentity(mib, idObjeto, oidInstancia), value).addAsn1MibSource('file:///usr/share/snmp',
-	                                                                                     'http://mibs.snmplabs.com/asn1/@mib@')))
+    		setCmd(SnmpEngine(),
+             	CommunityData(community),
+                UdpTransportTarget((ip, puerto)),
+                ContextData(),
+                ObjectType(ObjectIdentity(mib, idObjeto, oidInstancia), value).addAsn1MibSource('file:///usr/share/snmp',
+                                                                                     'http://mibs.snmplabs.com/asn1/@mib@')))
 
 
 	    if errorIndication:
@@ -51,7 +52,7 @@ def snmp_set(ip,community,mib,idObjeto,oidInstancia,value):
 	except:
 		varBinds = None
 
-    return varBinds
+	return varBinds
 
 
 def snmp_getBulk(ip,community,mib,nonRepeaters,maxRepetitions,introducidos):
@@ -134,7 +135,7 @@ def snmp_crear_evento(ip,community,eventDescription,eventType,eventCommunity,eve
 		                        errorIndex and varBinds[int(errorIndex) - 1][0] or '?'))
 	except:
 		varBinds = None
-		
+
 	return varBinds
 
 def snmp_crear_alarma(ip,community,indiceAlarma,indiceEvento, owner, interval, variable, sampleType, risingthr, fallingthr):
