@@ -21,8 +21,10 @@ TOKEN = '563209742:AAHsXl1ZoUIZDYCBTR52oxezfxHKdCoDb8E' # Nuestro token del bot.
 
 GRUPO = -1001201542913 #Definimos que cuando pongamos la palabra grupo lo vincule con el Id del grupo donde nos encontremos.  Al meter el bot en un grupo, en la propia consola nos saldrá
  
- 
- 
+AYUDA = "Hola buenas, bienvenido a mi servicio de gestión de conmutadores. Me llamo Pymon y voy a darte información sobre los comandos que puedes utilizar conmigo: \n\nComandos de configuración:\n\n/confip - configuración de la ip del conmutador a gestionar.\n/confmib - configuración de la mib a utilizar.\n/confcommunity - configuración de la comunidad que vayas a utilizar.\n/showconf - te muestra la configuración actual.\n\nComandos para la gestión:\n\n/get - realizamos un get con snmp.\n/set - realizamos un set con snmp.\n/getnext - realizamos un getnext con snmp.\n/getbulk - realizamos un getbulk con snmp.\n/createvent - creamos un evento para la sonda RMON ( tenemos que tener previamente la MIB de RMON configurada).\n/createalarm - creamos una alarma para la sonda RMON ( tenemos que tener previamente la MIB de RMON configurada.\n/receptortraps - el último usuario que utilice este comando será el que reciba los traps en su chat con el bot.\n\nSi desea saber que paŕametros han de recibir estos comandos utilice el comando /comandos, los comandos que no aparezcan al introducirlo no necesitarán parámetros."
+
+COMANDOS = "Ahora paso a enseñarte que parámetros has de pasarle a mis comandos:\n\n/get <oidObjeto> <oidInstancia\n/set <oidObjeto> <oidInstancia> <value>\n/getnext <oidObjeto>\n/getbulk <nonRepeaters> <maxRepetitions> <introducidos>\n/createvent <eventDescription> <eventType> <eventCommunity> <eventOwner> <eventIndex>\n/createalarm <indiceAlarma> <indiceEvento> <owner> <interval> <variable> <sampleType> <risingthr> <fallingth>"
+
 bot = telebot.TeleBot(TOKEN) # Creamos el objeto de nuestro bot.
 ############################################# 
 #Listener
@@ -115,7 +117,7 @@ def command_getnext(m):
     
     cid = m.chat.id
     aux = m.text.split(" ")
-    if len(aux)==3:
+    if len(aux)==2:
         oidObjeto = aux[1]
         varBinds = snmp_getNext(ip, community, mib, oidObjeto)
         if varBinds != None:
@@ -208,5 +210,15 @@ def command_showconf(m):
     bot.send_message(cid, "MIB: " + mib)
 
 
+@bot.message_handler(commands=['ayuda'])
+def command_ayuda(m):
+	
+	cid = m.chat.id
+	bot.send_message(cid,AYUDA)
 
+@bot.message_handler(commands=['comandos'])
+def command_comandos(m):
+
+	cid = m.chat.id
+	bot.send_message(cid,COMANDOS)
 bot.polling()
