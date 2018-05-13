@@ -6,6 +6,7 @@ import time # Librería para hacer que el programa que controla el bot no se aca
 from pysnmp.hlapi import *
 from funciones_snmp import *
 
+
 #Variables globales que necesitaremos utilizar para la gestion, se le asignaran valores por defecto
 
 ip = "0.0.0.0"
@@ -80,8 +81,11 @@ def command_get(m):
         oidObjeto = aux[1]
         oidInstancia = aux[2]
         varBinds = snmp_get(ip, community, mib, oidObjeto, int(oidInstancia))
-        for varBind in varBinds:
-                bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
+        if varBinds != None:
+            for varBind in varBinds:
+                    bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
+        else:
+            bot.send_message(cid, "Error en parámetro del comando")
     else:
         bot.send_message(cid,"Error de formato")
 
@@ -96,8 +100,11 @@ def command_set(m):
         oidInstancia = aux[2]
         value = aux[3]
         varBinds = snmp_set(ip, community, mib, oidObjeto, int(oidInstancia), value)
-        for varBind in varBinds:
-                bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
+        if varBinds != None:
+            for varBind in varBinds:
+                    bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
+        else:
+            bot.send_message(cid, "Error en parámetro del comando")
     else:
         bot.send_message(cid,"Error de formato")
 
@@ -111,8 +118,11 @@ def command_getnext(m):
     if len(aux)==3:
         oidObjeto = aux[1]
         varBinds = snmp_getNext(ip, community, mib, oidObjeto)
-        for varBind in varBinds:
-                bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
+        if varBinds != None:
+            for varBind in varBinds:
+                    bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
+        else:
+            bot.send_message(cid, "Error en parámetro del comando")
     else:
         bot.send_message(cid,"Error de formato")
 
@@ -127,11 +137,19 @@ def command_getbulk(m):
         maxRepetitions = aux[2]
         introducidos = aux[3]
         varBinds = snmp_getbulk(ip, community, mib, int(nonRepeaters), int(maxRepetitions), int(introducidos))
-        for varBind in varBinds:
-                bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
+        if varBinds != None:
+            for varBind in varBinds:
+                    bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
+        else:
+            bot.send_message(cid, "Error en parámetro del comando")
     else:
         bot.send_message(cid,"Error de formato")
 
+@bot.message_handler(commands=['receptortraps'])
+def command_receptortraps(m):
+    file = open("trap.txt","w")
+    file.write(str(m.chat.id))
+    file.close
 
 @bot.message_handler(commands=['showconf'])
 def command_showconf(m):
