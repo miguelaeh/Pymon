@@ -131,6 +131,8 @@ def command_getbulk(m):
                 bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
     else:
         bot.send_message(cid,"Error de formato")
+
+
 @bot.message_handler(commands=['showconf'])
 def command_showconf(m):
     
