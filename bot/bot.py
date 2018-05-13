@@ -25,6 +25,8 @@ AYUDA = "Hola buenas, bienvenido a mi servicio de gestión de conmutadores. Me l
 
 COMANDOS = "Ahora paso a enseñarte que parámetros has de pasarle a mis comandos:\n\n/get <oidObjeto> <oidInstancia\n/set <oidObjeto> <oidInstancia> <value>\n/getnext <oidObjeto>\n/getbulk <nonRepeaters> <maxRepetitions> <introducidos>\n/createvent <eventDescription> <eventType> <eventCommunity> <eventOwner> <eventIndex>\n/createalarm <indiceAlarma> <indiceEvento> <owner> <interval> <variable> <sampleType> <risingthr> <fallingth>"
 
+BIENVENIDA = "Bienvenido, soy un bot de telegram llamado Pymon utilizado para la gestión de la red. Si desea conocer mi guía de uso utilice el comando /ayuda."
+
 bot = telebot.TeleBot(TOKEN) # Creamos el objeto de nuestro bot.
 ############################################# 
 #Listener
@@ -221,4 +223,11 @@ def command_comandos(m):
 
 	cid = m.chat.id
 	bot.send_message(cid,COMANDOS)
+
+@bot.message_handler(commands=['start'])
+def start(m):
+
+	cid = m.chat.id
+	bot.send_message(cid, BIENVENIDA)
+
 bot.polling()
