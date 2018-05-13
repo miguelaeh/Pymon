@@ -4,6 +4,7 @@ import telebot # Librería de la API del bot.
 from telebot import types # Tipos para la API del bot.
 import time # Librería para hacer que el programa que controla el bot no se acabe.
 from pysnmp.hlapi import *
+from funciones_snmp import *
 
 #Variables globales que necesitaremos utilizar para la gestion, se le asignaran valores por defecto
 
@@ -66,8 +67,70 @@ def command_confmib(m):
         bot.send_message(cid, "MIB cambiada satisfactoriamente")
         print "Cambiada la MIB utilizada a " + mib
     else:
-        bot.send_message("Error de formato")
+        bot.send_message(cid, "Error de formato")
 
+
+@bot.message_handler(commands=['get'])
+def command_get(m):
+
+    
+    cid = m.chat.id
+    aux = m.text.split(" ")
+    if len(aux)==3:
+        oidObjeto = aux[1]
+        oidInstancia = aux[2]
+        varBinds = snmp_get(ip, community, mib, oidObjeto, int(oidInstancia))
+        for varBind in varBinds:
+                bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
+    else:
+        bot.send_message(cid,"Error de formato")
+
+@bot.message_handler(commands=['set'])
+def command_set(m):
+
+    
+    cid = m.chat.id
+    aux = m.text.split(" ")
+    if len(aux)==4:
+        oidObjeto = aux[1]
+        oidInstancia = aux[2]
+        value = aux[3]
+        varBinds = snmp_set(ip, community, mib, oidObjeto, int(oidInstancia), value)
+        for varBind in varBinds:
+                bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
+    else:
+        bot.send_message(cid,"Error de formato")
+
+
+@bot.message_handler(commands=['getnext'])
+def command_getnext(m):
+
+    
+    cid = m.chat.id
+    aux = m.text.split(" ")
+    if len(aux)==3:
+        oidObjeto = aux[1]
+        varBinds = snmp_getNext(ip, community, mib, oidObjeto)
+        for varBind in varBinds:
+                bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
+    else:
+        bot.send_message(cid,"Error de formato")
+
+@bot.message_handler(commands=['getbulk'])
+def command_getbulk(m):
+
+    
+    cid = m.chat.id
+    aux = m.text.split(" ")
+    if len(aux)==4:
+        nonRepeaters = aux[1]
+        maxRepetitions = aux[2]
+        introducidos = aux[3]
+        varBinds = snmp_getbulk(ip, community, mib, int(nonRepeaters), int(maxRepetitions), int(introducidos))
+        for varBind in varBinds:
+                bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
+    else:
+        bot.send_message(cid,"Error de formato")
 @bot.message_handler(commands=['showconf'])
 def command_showconf(m):
     

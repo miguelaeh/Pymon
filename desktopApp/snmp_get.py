@@ -29,13 +29,13 @@ def snmp_get(ip, community, mib, oidObjeto, oidInstancia):
 
 
 
-ip = raw_input("Introduzca IP: ")
-community = raw_input("Introduzca community: ")
-mib = raw_input("Introduzca nombre de la MIB: ") #la mib es el oid de la mib
-oidObjeto = raw_input("Introduzca Id del objeto: ")
-oidInstancia = raw_input("Introduzca oid de la instancia: ")
+#ip = raw_input("Introduzca IP: ")
+#community = raw_input("Introduzca community: ")
+#mib = raw_input("Introduzca nombre de la MIB: ") #la mib es el oid de la mib
+#oidObjeto = raw_input("Introduzca Id del objeto: ")
+#oidInstancia = raw_input("Introduzca oid de la instancia: ")
 
-varBinds = snmp_get(ip, community, mib, oidObjeto, oidInstancia)
+#varBinds = snmp_get(ip, community, mib, oidObjeto, oidInstancia)
 #imprimimmos los valores devueltos
-for varBind in varBinds:
-	        print(' = '.join([x.prettyPrint() for x in varBind]))
+#for varBind in varBinds:
+#	        print(' = '.join([x.prettyPrint() for x in varBind]))

@@ -1,6 +1,7 @@
 import telebot # Libreria de la API del bot.
 from telebot import * # Tipos para la API del bot.
 import time # Libreria para hacer que el programa que controla el bot no se acabe.
+from desktopApp.snmp_get import snmp_get
 
  
  
@@ -22,8 +23,11 @@ def command_prueba(m):
 	global ip
 	cid = m.chat.id
 	aux = m.text.split(" ")
-	ip = aux[1]
-	print ip
+	oidObjeto = aux[1]
+	oidInstancia = aux[2]
+	varBinds = snmp_get(ip, "public", "IF-MIB", "ifAdminStatus",0)
+	for varBind in varBinds:
+	        bot.send_message(cid,' = '.join([x.prettyPrint() for x in varBind]))
 
 @bot.message_handler(commands=['printip'])
 def command_printip(m):
