@@ -10,19 +10,26 @@ TOKEN = '563209742:AAHsXl1ZoUIZDYCBTR52oxezfxHKdCoDb8E' # Nuestro token del bot.
  
 AYUDA = 'Puedes utilizar los siguientes comandos : \n\n/ayuda - Guia para utilizar el bot. \n/info - Informacion De interes \n/hola - Saludo del Bot \n/piensa3D - Informacion sobre Piensa3D \n\n'
  
- 
+ip = "0.0.0.0"
+
  
  
 bot = telebot.TeleBot(TOKEN) # Creamos el objeto de nuestro bot.
 
 @bot.message_handler(commands=['prueba'])
-def command_prueba(m, update):
+def command_prueba(m):
 
+	global ip
 	cid = m.chat.id
-	bot.send_message(cid,'Envia')
-	time.sleep(5)
-	mensaje = update.m.text
-	bot.send_message(cid,mensaje)
+	aux = m.text.split(" ")
+	ip = aux[1]
+	print ip
+
+@bot.message_handler(commands=['printip'])
+def command_printip(m):
+	
+	cid = m.chat.id
+	bot.send_message(cid, ip)
 
 
 bot.polling()
